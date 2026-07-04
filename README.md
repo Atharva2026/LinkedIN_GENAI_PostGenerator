@@ -1,34 +1,36 @@
 # LinkedIn Post Generator 📝
 
-A streamlined, AI-powered web application built with Streamlit and LangChain that generates engaging, high-quality LinkedIn posts. The application uses few-shot prompting to learn from previously successful posts and tailor content based on the selected tone, language, and length.
+A streamlined, AI-powered web application built with Streamlit and LangChain that generates engaging LinkedIn posts with hooks, pacing, live-context grounding, and multiple ready-to-compare variants.
 
 ## Features ✨
 
-- **Topic Selection**: Choose from popular pre-defined tags or input your own custom topic.
-- **Customizable Tone & Length**: Generate posts that are Short, Medium, or Long with tones ranging from Professional and Casual to Witty and Storytelling.
-- **Bilingual Support**: Supports both English and Hinglish seamlessly.
-- **Few-Shot Prompting**: Learns from a dataset of highly engaged raw posts (`data/`) to output formatted, high-quality responses.
-- **Editable Output**: Provides an editable text area allowing users to tweak the generated content before downloading or copying to clipboard.
+- **Topic Selection**: Pick from curated tags or enter your own custom topic.
+- **Live Context Grounding**: Uses Tavily to retrieve trending context and ground generated posts in real-time.
+- **Customizable Tone & Length**: Choose Short, Medium, or Long posts, and tones like Professional, Casual, Witty, Storytelling, Motivational, and Educational.
+- **Bilingual Support**: Supports both English and Hinglish.
+- **Variant Comparison**: Generate 1–3 variants and choose the best draft.
+- **Editable Output**: Edit the selected variant in a final draft editor, then download or copy it.
 
 ## Technologies Used 🚀
 
 - **Frontend**: [Streamlit](https://streamlit.io/)
 - **Backend/LLM Integration**: [LangChain](https://python.langchain.com/)
-- **LLM Provider**: [Groq](https://groq.com/) (using LLaMA 3.1)
-- **Data Processing**: Pandas
+- **LLM Provider**: [Groq](https://groq.com/)
+- **Live Context Provider**: Tavily
 
 ## Prerequisites 🔑
 
-To run this project, you will need a **Groq API Key**.
-Create a `.env` file in the root directory and add your key:
+Create a `.env` file in the root directory and add your keys:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
+TAVILY_API_KEY=your_tavily_api_key_here
+TAVILY_API_URL=https://api.tavily.ai/v1/trends
 ```
 
-## Setup & Installation 🛠️
+`TAVILY_API_URL` is optional if you want to use a custom endpoint.
 
-This project uses `uv` for lightning-fast dependency management (you can also use pip).
+## Setup & Installation 🛠️
 
 1. **Clone the repository:**
    ```bash
@@ -37,23 +39,43 @@ This project uses `uv` for lightning-fast dependency management (you can also us
    ```
 
 2. **Install dependencies:**
-   Using `uv` (recommended):
-   ```bash
-   uv add -r requirements.txt
-   ```
-   Or using pip:
    ```bash
    pip install -r requirements.txt
    ```
 
+3. **Create `.env`** with your API credentials.
+
 ## Running the Application 🏃‍♂️
 
-Start the Streamlit development server using `uv`:
+From the project root:
 
 ```bash
-uv run streamlit run main.py
+streamlit run main.py
 ```
 
-*If you set up a standard virtual environment, activate it and run `streamlit run main.py`.*
+Open the local URL shown in the terminal (typically `http://localhost:8501`).
 
-Navigate to the Local URL provided in your terminal (usually `http://localhost:8501`) to start generating posts!
+## How to Use 🔍
+
+1. Select a pre-defined topic or enter a custom topic.
+2. Choose length, language, tone, hook, and emoji density.
+3. Click **Generate Post**.
+4. Review the generated variants.
+5. Select the variant you want to keep.
+6. Edit the final draft, then download or copy it.
+
+## Live Context Notes 🧠
+
+- The app attempts to fetch Tavily context for every generation.
+- If Tavily succeeds, you will see a **Grounded with live context** badge and source details.
+- If Tavily cannot fetch context, the app still generates a post and shows **Generated without live context** as a fallback.
+
+## Notes 📝
+
+- The sidebar options allow hashtag suggestions, tone, and variant control.
+- Selecting a variant updates the final draft and the live preview.
+- The app uses a cached Tavily result per topic for faster repeated generation.
+
+## License
+
+This repository is provided as-is for experimentation and portfolio use.
